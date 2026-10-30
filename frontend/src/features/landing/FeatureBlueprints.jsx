@@ -25,7 +25,7 @@ const blueprints = [
           </div>
         </div>
         <div className="text-[11px] text-[#4B5563] space-y-1 font-sans">
-          <p>• Solves $f(r) = \sum \frac{C_t}{(1+r)^{t}} = 0$ using 100 iterations with 1e-7 convergence tolerance.</p>
+          <p>• Solves Σ [ C(t) / (1 + r)^t ] = 0 using 100 iterations with 1e-7 convergence tolerance.</p>
           <p>• Corrects for SIP mandates placed during deep market pullbacks to credit true dollar-weighted alpha.</p>
         </div>
       </div>
