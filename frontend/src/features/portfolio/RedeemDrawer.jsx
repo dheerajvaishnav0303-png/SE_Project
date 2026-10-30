@@ -74,7 +74,7 @@ export default function RedeemDrawer({ holding, taxLots, onClose, onRedeem, isPe
           </div>
           {redeemUnits && (
             <div className="p-3 bg-[#FAF9F5] border border-[#E5E4DF] text-xs font-mono tabular-nums text-[#4B5563]">
-              Estimated Proceeds: <strong className="text-[#111827]">{formatPaise(Math.round(parseFloat(redeemUnits) * holding.plan.navPaise))}</strong>
+              Estimated Proceeds: <strong className="text-[#111827]">{formatPaise(Math.round(parseFloat(redeemUnits) * (holding.plan?.navPaise || 0)))}</strong>
             </div>
           )}
           <button

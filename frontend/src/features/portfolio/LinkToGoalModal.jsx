@@ -2,13 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { formatPaise } from '../../lib/formatters';
 
 export default function LinkToGoalModal({ holding, goals = [], onClose, onSave, isPending }) {
-  const [selectedGoalId, setSelectedGoalId] = useState(holding?.linkedGoal?._id || '');
+  const getGoalId = (h) => {
+    if (!h || !h.linkedGoal) return '';
+    return typeof h.linkedGoal === 'object' ? h.linkedGoal._id || '' : String(h.linkedGoal);
+  };
+
+  const [selectedGoalId, setSelectedGoalId] = useState(() => getGoalId(holding));
 
   useEffect(() => {
-    setSelectedGoalId(holding?.linkedGoal?._id || '');
+    setSelectedGoalId(getGoalId(holding));
   }, [holding]);
 
   if (!holding) return null;
+
+  const safeGoals = Array.isArray(goals) ? goals : [];
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
@@ -25,7 +32,7 @@ export default function LinkToGoalModal({ holding, goals = [], onClose, onSave, 
           className="w-full px-3 py-2 border border-[#D1D5DB] text-xs font-mono bg-white focus:outline-none"
         >
           <option value="">-- No Linked Goal (Unassigned) --</option>
-          {goals.map((g) => (
+          {safeGoals.map((g) => (
             <option key={g._id} value={g._id}>
               {g.title} ({formatPaise(g.targetAmountPaise || g.targetCorpusPaise || 0)})
             </option>

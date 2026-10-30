@@ -10,6 +10,8 @@ const envSchema = z.object({
     required_error: 'MONGO_URI is strictly required for database connectivity.',
   }).min(1, 'MONGO_URI cannot be empty.'),
   REDIS_URL: z.string().optional().default(process.env.REDIS_URL || ''),
+  UPSTASH_REDIS_REST_URL: z.string().optional().default(process.env.UPSTASH_REDIS_REST_URL || ''),
+  UPSTASH_REDIS_REST_TOKEN: z.string().optional().default(process.env.UPSTASH_REDIS_REST_TOKEN || ''),
   CRON_SECRET: z.string().optional().default(process.env.CRON_SECRET || ''),
   JWT_ACCESS_SECRET: z.string({
     required_error: 'JWT_ACCESS_SECRET is required to sign access tokens.',
