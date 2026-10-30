@@ -1,0 +1,43 @@
+# Master AI Engineering & Design Constitution (CLAUDE.md)
+## Institutional Wealth Management & Investment Advisory Platform (IPS v2.0)
+
+See full documentation in rules.md, docs/DESIGN.md, docs/UI_UX.md, docs/SYSTEM_DESIGN.md, docs/ARCHITECTURE.md, docs/PRD.md, and docs/TRD.md.
+
+---
+
+## 1. The Core Architectural Laws
+* **File Length Guardrails**: Strict limit of **250 LOC per React component**, **300 LOC per backend module**. Monoliths (`UserPortal.jsx`, `AdminPortal.jsx`) are strictly forbidden.
+* **Math Isolation**: Zero business or financial math inside React components. All quant math lives in pure, unit-tested domain utilities in `backend/src/quant/` or `frontend/src/lib/math/`.
+* **Data Fetching & Routing**: Never use raw `useEffect` for data fetching; use **TanStack Query v5** query hooks with query key factories. Mandatory URL routing via `react-router-dom` v6 with code-splitting.
+
+---
+
+## 2. Financial Precision & Security Laws
+* **Zero Floating-Point Currency Math**: Ban IEEE 754 float math for money. Use integer minor units (paise/cents) or MongoDB `Decimal128` and `decimal.js`.
+* **Mandatory Tenant Isolation (No IDOR)**: Every customer database query must filter by `{ user: req.user._id }` or `{ userId: req.user._id }`.
+* **ACID Transactions & Idempotency**: State-mutating financial endpoints require `session.withTransaction()` in MongoDB replica sets and an `Idempotency-Key` header verified via Redis.
+* **No `localStorage` Tokens**: JWT access tokens and rotating refresh tokens must strictly use `HttpOnly; Secure; SameSite=Strict` cookies. Never log PII.
+
+---
+
+## 3. Strict UI/UX Guardrails (The "No Dark, No Neon, No Boxes, No Circles" Law)
+* **NO DARK THEME**: Exclusively a daylight editorial interface on warm paper `#FAF9F5` and crisp white `#FFFFFF` with obsidian ink `#111827`. Ban `dark:*`, `bg-black`, `bg-slate-900`.
+* **NO NEON OR CYBERPUNK**: Ban neon greens, purples, cyans, and glow gradients. Use Forest Emerald `#0F5132`, Sovereign Navy `#1E3A8A`, Crimson Terracotta `#991B1B`, and Warm Ochre `#B45309`.
+* **NO BOXES / NO BENTO GRIDS**: Structure layouts like a Swiss private banking broadsheet using hairlines (`border-b border-[#E5E4DF]`, `border-r border-[#E5E4DF]`) and whitespace. Ban heavy card drop-shadows (`shadow-lg`, `shadow-xl`, `shadow-2xl`).
+* **NO CIRCLES**: Ban `rounded-full`, `rounded-xl`, `rounded-2xl`, circular avatars, pie charts, donut charts, and circular progress rings. Mandate `rounded-none` or `rounded-sm` (max 2px radius), square monograms, horizontal stacked allocation bars, and linear glidepath bars.
+* **MANDATORY TABULAR NUMERALS**: Every currency, percentage, XIRR, unit, NAV, and date MUST use `tabular-nums` for vertical decimal alignment.
+
+---
+
+## 4. Definition of Done (DoD) Checklist
+1. Under 250 LOC (frontend) / 300 LOC (backend).
+2. Zero financial math in UI components.
+3. Currency in integer paise or Decimal128 (no floats).
+4. Tenant isolation enforced (`{ user: req.user._id }`).
+5. Multi-document ACID transaction with `Idempotency-Key`.
+6. Zero dark mode (`bg-[#FAF9F5]`, `text-[#111827]`).
+7. Zero boxes/bento grids (structural hairlines).
+8. Zero circles (sharp geometry `rounded-none`, square monograms, stacked bars).
+9. Tabular numerals (`tabular-nums`) on all numeric values.
+10. Strict Zod schema validation & RFC 7807 error format.
+

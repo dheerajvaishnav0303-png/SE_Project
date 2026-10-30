@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-paper: #FAF9F5;
+  --bg-sheet: #FFFFFF;
+  --bg-muted: #F4F2EB;
+  --border-hairline: #E5E4DF;
+  --border-strong: #D1CFC7;
+  --ink-primary: #111827;
+  --ink-secondary: #4B5563;
+  --ink-faded: #9CA3AF;
+  --fin-gain: #0F5132;
+  --fin-loss: #991B1B;
+  --fin-navy: #1E3A8A;
+  --fin-amber: #B45309;
+}
+
+@layer base {
+  * {
+    border-color: #E5E4DF;
+  }
+
+  body {
+    background-color: var(--bg-paper);
+    color: var(--ink-primary);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Mandatory Tabular Alignment for all currency, percentages, units and dates */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Custom Scrollbar for High-Density Financial Data Tables */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #FAF9F5;
+}
+::-webkit-scrollbar-thumb {
+  background: #D1CFC7;
+  border-radius: 0px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9CA3AF;
+}
+
