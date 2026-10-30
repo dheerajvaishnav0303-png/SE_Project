@@ -103,3 +103,4 @@ export default function MobileHoldingsList({ holdings, onRedeem, onLinkGoal }) {
     </div>
   );
 }
+
