@@ -9,6 +9,7 @@ import ActionableEmptyState from '../../components/ui/ActionableEmptyState';
 import InfoTooltip from '../../components/ui/InfoTooltip';
 import RedeemDrawer from './RedeemDrawer';
 import LinkToGoalModal from './LinkToGoalModal';
+import MobileHoldingsList from './MobileHoldingsList';
 import { CheckCircle2, Search, ArrowUpDown } from 'lucide-react';
 
 export default function HoldingsAndXRayPage() {
@@ -40,9 +41,7 @@ export default function HoldingsAndXRayPage() {
       (await apiClient.post('/customer/investments/redeem', { planId, units: parseFloat(units) })).data,
     onSuccess: (res) => {
       setSuccessMsg(res.message);
-      queryClient.invalidateQueries({ queryKey: investmentKeys.holdings() });
-      queryClient.invalidateQueries({ queryKey: portfolioKeys.summary() });
-      queryClient.invalidateQueries({ queryKey: investmentKeys.taxLots() });
+      [investmentKeys.holdings(), portfolioKeys.summary(), investmentKeys.taxLots()].forEach((q) => queryClient.invalidateQueries({ queryKey: q }));
       setSelectedHolding(null);
     },
   });
@@ -124,8 +123,17 @@ export default function HoldingsAndXRayPage() {
         </div>
       </div>
 
-      {/* Data Table */}
-      <div className="border border-[#E5E4DF] bg-white overflow-x-auto">
+      {/* Responsive Ledger Presentation: Mobile Dual-Mode List + Desktop Broadsheet */}
+      {!isLoading && filteredHoldings.length > 0 && (
+        <MobileHoldingsList
+          holdings={filteredHoldings}
+          onRedeem={(inv) => { setSelectedHolding(inv); setSuccessMsg(null); }}
+          onLinkGoal={(inv) => setGoalModalHolding(inv)}
+        />
+      )}
+
+      {/* Desktop Data Table */}
+      <div className="hidden md:block border border-[#E5E4DF] bg-white overflow-x-auto">
         <table className="w-full text-left border-collapse font-sans">
           <thead>
             <tr className="border-b border-[#E5E4DF] bg-[#FAF9F5] text-[10px] font-semibold uppercase tracking-wider text-[#4B5563]">

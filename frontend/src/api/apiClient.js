@@ -46,12 +46,13 @@ apiClient.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // Avoid infinite refresh loops on login or auth endpoints
+    // Avoid infinite refresh loops on login, refresh, or me endpoints
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
       !originalRequest.url.includes('/auth/login') &&
-      !originalRequest.url.includes('/auth/refresh')
+      !originalRequest.url.includes('/auth/refresh') &&
+      !originalRequest.url.includes('/auth/me')
     ) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {

@@ -27,6 +27,23 @@ export const useAuthStore = create((set) => ({
     set({ user, isAuthenticated: Boolean(user), isLoading: false });
   },
 
+  demoLogin: async (role = 'investor') => {
+    const creds = role === 'admin'
+      ? { email: 'admin@ips-wealth.com', password: 'Admin123!' }
+      : { email: 'investor@ips-wealth.com', password: 'Investor123!' };
+    try {
+      set({ isLoading: true, error: null });
+      await apiClient.post('/auth/login', creds);
+      const res = await apiClient.get('/auth/me');
+      const user = res.data?.data?.user || null;
+      set({ user, isAuthenticated: Boolean(user), isLoading: false });
+      return user;
+    } catch (err) {
+      set({ error: err.message, isLoading: false });
+      throw err;
+    }
+  },
+
   logout: async () => {
     try {
       await apiClient.post('/auth/logout');

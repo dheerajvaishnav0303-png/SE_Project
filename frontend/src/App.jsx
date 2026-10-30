@@ -4,7 +4,8 @@ import { useAuthStore } from './stores/authStore';
 import { RequireAuth, RequireAdmin } from './routes/Guards';
 import { EditorialShell } from './components/layout/EditorialShell';
 
-// Auth Views
+// Public Landing & Auth Views
+import LandingPage from './features/landing/LandingPage';
 import AuthPage from './features/auth/AuthPage';
 
 // Retail Investor Views
@@ -44,7 +45,8 @@ export default function App() {
 
   return (
     <Routes>
-      {/* 1. Public Authentication Views */}
+      {/* 1. Public Institutional Landing Page & Auth Views */}
+      <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<AuthPage />} />
       <Route path="/register" element={<AuthPage />} />
 
@@ -56,7 +58,6 @@ export default function App() {
           </RequireAuth>
         }
       >
-        <Route path="/" element={<RoleBasedRoot />} />
         <Route path="/dashboard" element={<ExecutiveLedgerPage />} />
         <Route path="/portfolio" element={<HoldingsAndXRayPage />} />
         <Route path="/marketplace" element={<CuratedPlansPage />} />

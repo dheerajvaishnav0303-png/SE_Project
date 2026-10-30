@@ -207,10 +207,30 @@ export default function AuthPage() {
             </button>
           </form>
 
-          <div className="mt-6 pt-4 border-t border-[#E5E4DF] text-center">
-            <span className="text-[11px] text-[#9CA3AF] font-mono">
-              Demo Credentials: investor@ips-wealth.com / Investor123!
+          <div className="mt-6 pt-4 border-t border-[#E5E4DF] space-y-2">
+            <span className="text-[10px] text-[#9CA3AF] font-mono block text-center uppercase tracking-wider">
+              Quick Institutional Sandbox Logins:
             </span>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setFormData({ email: 'investor@ips-wealth.com', password: 'Investor123!', firstName: '', lastName: '', totpCode: '' });
+                }}
+                className="py-1 px-2 text-[10px] font-mono border border-[#0F5132] text-[#0F5132] hover:bg-[#0F5132] hover:text-white transition-colors"
+              >
+                Fill Investor Demo
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setFormData({ email: 'admin@ips-wealth.com', password: 'Admin123!', firstName: '', lastName: '', totpCode: '' });
+                }}
+                className="py-1 px-2 text-[10px] font-mono border border-[#1E3A8A] text-[#1E3A8A] hover:bg-[#1E3A8A] hover:text-white transition-colors"
+              >
+                Fill Admin Demo
+              </button>
+            </div>
           </div>
         </div>
       </div>
