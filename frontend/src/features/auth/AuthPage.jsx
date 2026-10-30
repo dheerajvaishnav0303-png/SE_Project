@@ -14,6 +14,7 @@ export default function AuthPage() {
     totpCode: '',
   });
   const [error, setError] = useState(null);
+  const [errorHint, setErrorHint] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ export default function AuthPage() {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setError(null);
+    setErrorHint(null);
   };
 
   const handleSubmit = async (e) => {
@@ -65,6 +67,7 @@ export default function AuthPage() {
       }
     } catch (err) {
       setError(err.response?.data?.detail || err.message || 'Authentication failed.');
+      setErrorHint(err.response?.data?.hint || null);
     } finally {
       setLoading(false);
     }
@@ -109,8 +112,9 @@ export default function AuthPage() {
           </div>
 
           {error && (
-            <div className="mb-4 p-3 bg-[#FEF2F2] border border-[#991B1B] text-[#991B1B] text-xs">
-              {error}
+            <div className="mb-4 p-3 bg-[#FEF2F2] border border-[#991B1B] text-[#991B1B] text-xs space-y-1">
+              <div className="font-semibold">{error}</div>
+              {errorHint && <div className="text-[11px] text-[#4B5563] font-sans">{errorHint}</div>}
             </div>
           )}
 
