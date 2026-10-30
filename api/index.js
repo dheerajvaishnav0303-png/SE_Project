@@ -24,6 +24,20 @@ export default async function handler(req, res) {
     }
   } catch (err) {
     logger.error({ err: err.message }, 'Failed during serverless initialization hook.');
+    // Fail fast with clear diagnostic info instead of letting controllers crash on null connection
+    if (!req.url.includes('/api/health')) {
+      res.setHeader('Content-Type', 'application/json');
+      res.statusCode = 503;
+      return res.end(
+        JSON.stringify({
+          type: 'https://api.ips-wealth.com/errors/database-unavailable',
+          title: 'Database Connection Failed',
+          status: 503,
+          detail: err.message,
+          hint: 'Ensure MongoDB Atlas Network Access has 0.0.0.0/0 allowed and MONGO_URI is correctly configured on Vercel.',
+        })
+      );
+    }
   }
 
   // 3. Delegate request execution to Express app
@@ -34,4 +48,3 @@ export default async function handler(req, res) {
     app(req, res);
   });
 }
-

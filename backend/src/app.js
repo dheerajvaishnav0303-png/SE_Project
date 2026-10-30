@@ -1,4 +1,5 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import { configureSecurityMiddleware } from './middleware/securityMiddleware.js';
 import { httpLogger } from './utils/logger.js';
 import { globalLimiter } from './middleware/rateLimitMiddleware.js';
@@ -29,11 +30,16 @@ app.use(httpLogger);
 app.use('/api', globalLimiter);
 
 // 4. Operational Health & Readiness Probes
-app.get('/health', (_req, res) => {
+app.get(['/health', '/api/health'], (_req, res) => {
+  const readyState = mongoose.connection.readyState;
+  const stateMap = { 0: 'disconnected', 1: 'connected', 2: 'connecting', 3: 'disconnecting' };
   res.status(200).json({
     status: 'UP',
     service: 'IPS Wealth Management Backend',
     version: '2.0.0',
+    database: stateMap[readyState] || 'unknown',
+    readyState,
+    host: mongoose.connection.host || null,
     timestamp: new Date().toISOString(),
     uptimeSeconds: Math.floor(process.uptime()),
   });

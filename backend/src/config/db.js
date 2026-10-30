@@ -25,9 +25,9 @@ export async function connectDB() {
     const opts = {
       maxPoolSize: 10,
       minPoolSize: 1,
-      serverSelectionTimeoutMS: 5000,
+      serverSelectionTimeoutMS: 10000,
       socketTimeoutMS: 45000,
-      bufferCommands: false, // Fail fast on cold starts
+      bufferCommands: true,
       retryWrites: true,
       w: 'majority',
     };
